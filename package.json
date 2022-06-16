@@ -1,0 +1,26 @@
+{
+  "name": "aiz-obniz",
+  "version": "1.0.0",
+  "description": "bit.Connect 2021",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ServiceTech-fun/aiz-obniz.git"
+  },
+  "keywords": [
+    "obniz"
+  ],
+  "author": "Yuuki Takagi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ServiceTech-fun/aiz-obniz/issues"
+  },
+  "homepage": "https://github.com/ServiceTech-fun/aiz-obniz#readme",
+  "dependencies": {
+    "@line/bot-sdk": "^7.5.0",
+    "obniz": "^3.21.0"
+  }
+}
