@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/obniz@3.19.0/obniz.js"></script>
+  </head>
+  <body>
+    <div id="obniz-debug"></div>
+      <h3>State: <strong id="here">Not online</strong></h3>
+      <h5>TEXT</h5>
+      <div>
+        <input type="text" class="p-2" id="text" value="0">
+        <button class="btn btn-primary" id="showtime">Print degree on obniz</button>
+      </div>
+    </div>
+    <script>
+      var obniz = new Obniz("7047-3715");
+      obniz.onconnect = async function () {
+        var servo = obniz.wired("ServoMotor", { gnd: 0, vcc: 1, signal: 2 });
+        $("#here").text("Online")
+        var angle = 0;
+        $("#showtime").on("click", function () {
+          obniz.display.clear();
+          angle = Number($("#text").val())
+          servo.angle(angle);
+          obniz.display.print($("#text").val() + " deg");
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://obniz.com/js/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/obniz@3.x/obniz.js"></script>
+  </head>
+  <body>
+    <script>
+    var obniz = new Obniz("7047-3715");
+    var flag = false
+    obniz.onconnect = async function () {
+      var sensor = obniz.wired("Keyestudio_PIR", {signal:0, vcc:1, gnd:2});
+      var light = obniz.wired("Keyestudio_TrafficLight", {gnd:11, green:10, yellow:9, red:8});
+      sensor.onchange = function(val){
+        console.log(val ? 'Moving Something!' : 'Nothing moving');
+        if (val) {
+          light.single("red");
+        } else {
+          light.single("green");
+        }
+      }
+    }
+    </script>
+  </body>
+</html>

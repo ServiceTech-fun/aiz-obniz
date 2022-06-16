@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/obniz@3.19.0/obniz.js"></script>
+  </head>
+  <body>
+    <div id="obniz-debug"></div>
+      <h3>State: <strong id="here">Not online</strong></h3>
+      <h5>LED</h5>
+      <div class="btnBox d-flex mb-4">
+        <div class="green_btn d-flex flex-column">
+          <button class="btn btn-success m-1" id="green_on">ON</button>
+          <button class="btn btn-success m-1" id="green_off">OFF</button>
+        </div>
+        <div class="yellow_btn d-flex flex-column">
+          <button class="btn btn-warning m-1" id="yellow_on">ON</button>
+          <button class="btn btn-warning m-1" id="yellow_off">OFF</button>
+        </div>
+        <div class="red_btn d-flex flex-column">
+          <button class="btn btn-danger m-1" id="red_on">ON</button>
+          <button class="btn btn-danger m-1" id="red_off">OFF</button>
+        </div>
+      </div>
+      <h5>TEXT</h5>
+      <div>
+        <input type="text" class="p-2" id="text" value="Hello World">
+        <button class="btn btn-primary" id="showtime">Print on obniz</button>
+      </div>
+    </div>
+    <strong id="here">Please Touch this text</strong>
+    <script>
+      var obniz = new Obniz("7047-3715");
+      obniz.onconnect = async function () {
+        var light = obniz.wired("Keyestudio_TrafficLight", {gnd:0, green:1, yellow:2, red:3});
+        $("#here").text("Online")
+        $('#green_on').click(function () {
+          light.green.on();
+        });
+        $('#green_off').click(function () {
+          light.green.off();
+        });
+        $('#yellow_on').click(function () {
+          light.yellow.on();
+        });
+        $('#yellow_off').click(function () {
+          light.yellow.off();
+        });
+        $('#red_on').click(function () {
+          light.red.on();
+        });
+        $('#red_off').click(function () {
+          light.red.off();
+        });
+        obniz.switch.onchange = function(state) {
+          $('#print').text(state);
+          obniz.display.clear();
+          obniz.display.print(state);
+        }
+        $("#showtime").on("click", function(){
+          obniz.display.clear();
+          obniz.display.print($("#text").val());
+        });
+      }
+    </script>
+  </body>
+</html>

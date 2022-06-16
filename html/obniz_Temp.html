@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://unpkg.com/obniz@3.19.0/obniz.js"></script>
+  </head>
+  <body>
+    <canvas id="myChart"></canvas>
+    <script>
+    var ctx = document.getElementById("myChart");
+    var tempLists = [];
+    var labelLists = [];
+    var obniz = new Obniz("7047-3715");
+    obniz.onconnect = async function () {
+      var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: '現在の温度',
+            data: []
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                suggestedMax: 30,
+                suggestedMin: 20,
+                stepSize: 1,
+                callback: function (value, index, values) {
+                  return value + '℃'
+                }
+              }
+            }]
+          },
+        }
+      });
+      var tempsens = obniz.wired("Keyestudio_TemperatureSensor", { signal: 0, vcc: 1, gnd: 2 });
+      var count = 0;
+      tempsens.onchange = function (temp) {
+        count++;
+        tempLists.push(temp.toFixed(1));
+        labelLists.push(count);
+        chart.data.labels = labelLists;
+        chart.data.datasets[0].data = tempLists;
+        chart.update();
+        console.log(temp.toFixed(1));
+      };
+    }
+    </script>
+  </body>
+</html>
